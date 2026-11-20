@@ -1,0 +1,12 @@
+.env
+.venv/
+.deps*/
+.uv-cache/
+.npm-cache/
+__pycache__/
+.pytest_cache/
+.test-run-*/
+node_modules/
+dist/
+*.sqlite3*
+*.log

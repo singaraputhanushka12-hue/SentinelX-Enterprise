@@ -1,0 +1,35 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081325">
+  <title>Integration | SentinelX</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script defer src="/assets/script.js"></script>
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="/">Sentinel<span>X</span></a><p class="connection" id="connection" role="status">Checking connection</p></header>
+    <section class="card">
+      <h1>SentinelX integration</h1>
+      <p>Create a Login Portal connector in the SOC dashboard and enter its credentials here.</p>
+      <form id="connector">
+        <label for="url">SentinelX API URL</label>
+        <input name="url" id="url" type="url" value="http://127.0.0.1:8003" maxlength="500" required>
+        <label for="connector_id">Connector ID</label>
+        <input name="connector_id" id="connector_id" maxlength="32" autocapitalize="none" spellcheck="false" required>
+        <label for="token">Connector token</label>
+        <input name="token" id="token" type="password" maxlength="43" autocomplete="off" required>
+        <button type="submit" id="save">Connect</button>
+      </form>
+      <div class="actions">
+        <button class="secondary" type="button" id="test">Test connection</button>
+        <button class="secondary" type="button" id="disconnect">Disconnect</button>
+      </div>
+      <p id="message" role="status"></p>
+      <a href="/">Back to portal</a>
+    </section>
+  </main>
+</body>
+</html>

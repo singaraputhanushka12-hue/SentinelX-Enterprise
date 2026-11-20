@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: sentinelx
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Copy .env.example to .env}
+      POSTGRES_DB: sentinelx
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentinelx -d sentinelx"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    volumes:
+      - enterprise-postgres:/var/lib/postgresql/data
+
+  enterprise-api:
+    build: .
+    command: ["python", "-m", "uvicorn", "--app-dir", "sentinelx-backend", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+    environment:
+      SENTINELX_DATABASE_URL: postgresql+psycopg://sentinelx:${POSTGRES_PASSWORD}@postgres/sentinelx
+      SENTINELX_MISP_URL: ${SENTINELX_MISP_URL:-}
+      SENTINELX_MISP_API_KEY: ${SENTINELX_MISP_API_KEY:-}
+      SENTINELX_TAXII_OBJECTS_URL: ${SENTINELX_TAXII_OBJECTS_URL:-}
+      SENTINELX_TAXII_TOKEN: ${SENTINELX_TAXII_TOKEN:-}
+      SENTINELX_VT_API_KEY: ${SENTINELX_VT_API_KEY:-}
+      SENTINELX_LLM_GATEWAY_URL: ${SENTINELX_LLM_GATEWAY_URL:-}
+      SENTINELX_LLM_GATEWAY_TOKEN: ${SENTINELX_LLM_GATEWAY_TOKEN:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      SENTINELX_OPENAI_MODEL: ${SENTINELX_OPENAI_MODEL:-gpt-5-mini}
+      SENTINELX_AI_ALLOWED_ORGS: ${SENTINELX_AI_ALLOWED_ORGS:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports: ["127.0.0.1:8001:8001"]
+
+  demolab-api:
+    build: .
+    command: ["python", "-m", "uvicorn", "demolab.backend.main:app", "--host", "0.0.0.0", "--port", "8002"]
+    environment:
+      DEMOLAB_DATABASE_URL: sqlite:////var/lib/demolab/demolab.sqlite3
+      DEMOLAB_ENTERPRISE_URL: http://enterprise-api:8001
+    depends_on: [enterprise-api]
+    volumes:
+      - demolab-database:/var/lib/demolab
+    ports: ["127.0.0.1:8002:8002"]
+
+  enterprise-web:
+    build: ./sentinelx-frontend
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+    environment:
+      SENTINELX_API: http://enterprise-api:8001
+    depends_on: [enterprise-api]
+    ports: ["127.0.0.1:5174:5174"]
+
+  demolab-web:
+    build: ./demolab/frontend
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+    environment:
+      DEMOLAB_API: http://demolab-api:8002
+    depends_on: [demolab-api]
+    ports: ["127.0.0.1:5175:5175"]
+
+volumes:
+  enterprise-postgres:
+  demolab-database:
+

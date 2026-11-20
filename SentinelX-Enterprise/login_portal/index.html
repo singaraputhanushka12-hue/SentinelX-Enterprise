@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081325">
+  <title>Sign in | SentinelX</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script defer src="/assets/script.js"></script>
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="/">Sentinel<span>X</span></a><p class="connection" id="connection" role="status">Checking connection</p></header>
+    <section class="card">
+      <div id="signed-in" hidden>
+        <h1>Session active</h1>
+        <p id="identity"></p>
+        <a class="secondary" id="settings" href="/integration" hidden>Manage SentinelX integration</a>
+        <button type="button" id="logout">Sign out</button>
+      </div>
+      <form id="login">
+        <h1>Sign in</h1>
+        <label for="username">Username</label>
+        <input id="username" name="username" autocomplete="username" maxlength="100" required autofocus>
+        <label for="password">Password</label>
+        <div class="password">
+          <input id="password" name="password" type="password" autocomplete="current-password" maxlength="128" required>
+          <button type="button" class="secondary" id="reveal" aria-controls="password">Show</button>
+        </div>
+        <button type="submit">Sign in</button>
+      </form>
+      <p id="message" role="status"></p>
+    </section>
+  </main>
+</body>
+</html>

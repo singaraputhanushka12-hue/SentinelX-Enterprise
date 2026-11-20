@@ -1,0 +1,42 @@
+﻿:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #081325;
+  color: #edf4ff;
+  --muted: #a6b7d1;
+  --border: #2b4164;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 25% 10%, #193b70, transparent 55%);
+}
+main { max-width: 550px; margin: auto; padding: clamp(24px, 8vh, 96px) 20px 40px; }
+header, .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+header { justify-content: space-between; margin-bottom: 24px; }
+.brand { font-weight: 800; font-size: 1.6rem; color: #edf4ff; text-decoration: none; }
+.brand span, a { color: #82bdff; }
+.connection { display: flex; align-items: center; gap: 8px; font-size: .875rem; }
+.connection::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #e2aa64; }
+.connection[data-status="connected"]::before { background: #5ee6ac; }
+.card { background: #101f36; border: 1px solid var(--border); border-radius: 20px; padding: clamp(22px, 6vw, 42px); box-shadow: 0 30px 70px #030a17aa; }
+h1 { margin: 0 0 20px; font-size: clamp(1.8rem, 7vw, 2.4rem); letter-spacing: -.045em; }
+p { color: var(--muted); line-height: 1.5; }
+label { display: block; margin: 16px 0 7px; font-weight: 600; }
+input, button { font: inherit; min-height: 46px; border-radius: 9px; }
+input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); background: #08162b; color: inherit; }
+button { padding: 10px 16px; border: 1px solid transparent; font-weight: 650; color: #fff; background: #225fce; cursor: pointer; }
+button:hover { filter: brightness(1.2); }
+button:disabled { cursor: wait; opacity: .6; }
+:focus-visible { outline: 2px solid #94caff; outline-offset: 3px; }
+button[type="submit"], #logout { display: block; width: 100%; margin-top: 24px; }
+.secondary { border-color: var(--border); background: #172c49; }
+a.secondary { display: inline-block; padding: 10px; border: 1px solid var(--border); border-radius: 9px; }
+.password { display: flex; gap: 8px; }
+.password input { min-width: 0; }
+.actions { margin-top: 14px; }
+#message:empty { display: none; }
+#message[data-error="true"] { color: #ffb9b1; }
+#connector ~ a { display: inline-block; margin-top: 20px; }
